@@ -10,6 +10,6 @@ import java.time.LocalDateTime;
  *
  * @author kainingxin
  */
-public record Transaction(@NonNull LocalDateTime dateTime, @NonNull BigDecimal amount,
-                          @NonNull TransactionType transactionType,@NonNull BigDecimal balance) {
+public record Transaction(@NonNull LocalDateTime dateTime, @NonNull Money amount,
+                          @NonNull TransactionType transactionType,@NonNull Money balance) {
 }

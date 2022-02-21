@@ -60,6 +60,23 @@ public class BankAccountTest {
         assertFalse(bankAccount.withDraw(money));
     }
 
+    @Test
+    public void when_withdrew_success_then_un_transaction_added(){
+        Money money = new Money("100");
+        assertTrue(bankAccount.withDraw(money));
+        assertEquals("100",bankAccount.getTransactions().get(0).amount().getValue().toString());
+        assertEquals("0.2",bankAccount.getTransactions().get(0).balance().getValue().toString());
+        assertEquals(TransactionType.WITHDRAW,bankAccount.getTransactions().get(0).transactionType());
+    }
+
+    @Test
+    public void when_deposit_success_then_un_transaction_added(){
+        Money money = new Money("100");
+        assertTrue(bankAccount.deposit(money));
+        assertEquals("100",bankAccount.getTransactions().get(0).amount().getValue().toString());
+        assertEquals("200.2",bankAccount.getTransactions().get(0).balance().getValue().toString());
+        assertEquals(TransactionType.DEPOSIT,bankAccount.getTransactions().get(0).transactionType());
+    }
 
 } 
 
