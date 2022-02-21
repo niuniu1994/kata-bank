@@ -1,6 +1,7 @@
 package com.exalt.katabank.domain;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,8 +49,14 @@ public class MoneyTest {
         assertTrue(m1.isPositive());
     }
 
+
     @Test
-    public void when_m1_negative_or_zero_then_return_false(){
+    public void when_m1_is_not_a_number_then_exception_throw(){
+        assertThrows(NumberFormatException.class,()->new Money("12d"));
+    }
+
+    @Test
+    public void when_m1_negative_return_true_otherwise_false(){
         Money m1 = new Money("-100.40");
         assertFalse(m1.isPositive());
         m1 = new Money("0");
@@ -57,9 +64,19 @@ public class MoneyTest {
     }
 
     @Test
-    public void when_m1_is_not_a_number_then_exception_throw(){
-        assertThrows(NumberFormatException.class,()->new Money("12d"));
+    public void when_m1_is_zero_then_return_true_otherwise_false(){
+        Money m1 = new Money("0");
+        assertFalse(m1.isZero());
+        m1 = new Money("-1");
+        assertFalse(m1.isZero());
     }
 
+    @Test
+    public void when_m1_equal_m2_then_return_true_otherwise_false(){
+        Money m1 = new Money("-12");
+        assertFalse(m1.isNegative());
+        m1 = new Money("0");
+        assertFalse(m1.isNegative());
+    }
 
 }
