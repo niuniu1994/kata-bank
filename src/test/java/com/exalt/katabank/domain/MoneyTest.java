@@ -60,4 +60,6 @@ public class MoneyTest {
     public void when_m1_is_not_a_number_then_exception_throw(){
         assertThrows(NumberFormatException.class,()->new Money("12d"));
     }
+
+
 }

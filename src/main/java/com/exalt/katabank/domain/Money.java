@@ -39,11 +39,15 @@ public class Money {
         return this.value.signum() == 1;
     }
 
-    public boolean isNegativeOrZero(){
+    public boolean isNegative(){
         return this.value.signum() != 1;
     }
 
-    public boolean isGreaterThan(Money money){
+    public boolean isZero(){
+        return false;
+    }
+
+    public boolean isGreaterOrEqual(Money money){
         return this.value.compareTo(money.getValue()) > 0;
     }
 
