@@ -20,7 +20,7 @@ public class BankAccountTest {
     @BeforeEach
     public void setup(){
         Money money = new Money("100.20");
-         bankAccount = new BankAccount(1L,money, List.of());
+        bankAccount = new BankAccount(1L,money, List.of());
     }
 
     @Test
