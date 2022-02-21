@@ -66,7 +66,7 @@ public class MoneyTest {
     @Test
     public void when_m1_is_zero_then_return_true_otherwise_false(){
         Money m1 = new Money("0");
-        assertFalse(m1.isZero());
+        assertTrue(m1.isZero());
         m1 = new Money("-1");
         assertFalse(m1.isZero());
     }
@@ -74,7 +74,7 @@ public class MoneyTest {
     @Test
     public void when_m1_equal_m2_then_return_true_otherwise_false(){
         Money m1 = new Money("-12");
-        assertFalse(m1.isNegative());
+        assertTrue(m1.isNegative());
         m1 = new Money("0");
         assertFalse(m1.isNegative());
     }
