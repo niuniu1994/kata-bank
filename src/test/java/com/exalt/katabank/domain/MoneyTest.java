@@ -11,7 +11,7 @@ public class MoneyTest {
 
     @Test
     public void when_init_money_then_only_keep_two_decimal_place(){
-        assertEquals("120.23",new Money("120,2333").getValue().toString());
+        assertEquals("120.23",new Money("120.2333").getValue().toString());
     }
 
     @Test
@@ -25,14 +25,14 @@ public class MoneyTest {
     public void when_negative_and_positive_numbers_add_then_return_correct_result(){
         Money m1 = new Money("100.40");
         Money m2 = new Money("-20.40");
-        assertEquals("100.00",m2.add(m1).getValue().toString());
+        assertEquals("80.00",m2.add(m1).getValue().toString());
     }
 
     @Test
     public void when_positive_and_positive_numbers_subtract_then_return_correct_result(){
         Money m1 = new Money("100.40");
         Money m2 = new Money("20.40");
-        assertEquals("100.00",m1.subtract(m2).getValue().toString());
+        assertEquals("80.00",m1.subtract(m2).getValue().toString());
     }
 
     @Test
@@ -58,6 +58,6 @@ public class MoneyTest {
 
     @Test
     public void when_m1_is_not_a_number_then_exception_throw(){
-        assertThrows(Exception.class,()->new Money("12d"));
+        assertThrows(NumberFormatException.class,()->new Money("12d"));
     }
 }

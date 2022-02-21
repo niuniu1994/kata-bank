@@ -3,6 +3,7 @@ package com.exalt.katabank.domain;
 import lombok.Getter;
 import lombok.NonNull;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
@@ -23,27 +24,27 @@ public class Money {
     }
 
     public Money(String value) {
-        this.value = new BigDecimal(value);
+        this.value = new BigDecimal(value).setScale(2, RoundingMode.DOWN);
     }
 
     public Money add(Money money){
-        return null;
+        return new Money(this.value.add(money.getValue()));
     }
 
     public Money subtract( Money money){
-        return null;
+        return new Money(this.value.subtract(money.getValue()));
     }
 
     public boolean isPositive(){
-        return false;
+        return this.value.signum() == 1;
     }
 
     public boolean isNegativeOrZero(){
-        return false;
+        return this.value.signum() != 1;
     }
 
     public boolean isGreaterThan(Money money){
-        return false;
+        return this.value.compareTo(money.getValue()) > 0;
     }
 
 }
