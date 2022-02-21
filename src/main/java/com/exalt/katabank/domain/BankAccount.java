@@ -19,11 +19,11 @@ public class BankAccount {
     private List<Transaction> transactions;
 
 
-    public boolean withDraw(BigDecimal amount){
+    public boolean withDraw(Money amount){
         return false;
     }
 
-    public boolean deposit(BigDecimal amount){
+    public boolean deposit(Money amount){
         return false;
     }
 
