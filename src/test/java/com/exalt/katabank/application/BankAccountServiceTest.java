@@ -37,7 +37,6 @@ public class BankAccountServiceTest {
     void setup(){
         bankAccount = new BankAccount(1L,
                 new Money("100"), new ArrayList<>(List.of(new Transaction(1L,LocalDateTime.now(),new Money("10"), TransactionType.WITHDRAW,new Money("100")))) );
-
     }
 
     @Test
@@ -54,6 +53,18 @@ public class BankAccountServiceTest {
 
     @Test
     void  when_check_transaction_then_should_return_items(){
+        Mockito.when(accountPersistencePort.loadAccount(1L)).thenReturn(bankAccount);
+        assertNotNull(bankAccountService.checkTransactions(1L));
+    }
+
+    @Test
+    void  when_multi_thread_retrieve_money_then_should_return_correct_result(){
+        Mockito.when(accountPersistencePort.loadAccount(1L)).thenReturn(bankAccount);
+
+    }
+
+    @Test
+    void  when_multi_thread_deposit_money_then_should_return_correct_result(){
         Mockito.when(accountPersistencePort.loadAccount(1L)).thenReturn(bankAccount);
         assertNotNull(bankAccountService.checkTransactions(1L));
     }
