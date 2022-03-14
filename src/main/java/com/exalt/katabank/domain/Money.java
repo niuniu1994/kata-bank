@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
  */
 public class Money {
 
-    private final static DecimalFormat DECIMAL_FORMAT =new DecimalFormat("#.00");
+    private static final DecimalFormat DECIMAL_FORMAT =new DecimalFormat("#.00");
 
     @Getter
     @NonNull

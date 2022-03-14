@@ -39,7 +39,9 @@ public class AccountPersistenceAdapterTest {
 
     @Test
     void  when_bankAccount_id_correct_then_return_account(){
-        assertNotNull(adapter.loadAccount(1L));
+        BankAccount bankAccount = adapter.loadAccount(1L);
+        assertNotNull(bankAccount);
+        assertNotNull(bankAccount.getTransactions());
     }
 
     @Test
