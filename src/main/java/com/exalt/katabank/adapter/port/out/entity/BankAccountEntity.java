@@ -1,16 +1,17 @@
 package com.exalt.katabank.adapter.port.out.entity;
 
-import com.exalt.katabank.domain.TransactionType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@ToString
 @Table(name = "bankAccount")
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,9 +22,9 @@ public class BankAccountEntity {
 
     private String balance;
 
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "account_id")
+    @ToString.Exclude
     private Set<TransactionEntity> transactionEntitySet = new HashSet<>();
 
     public void addTransaction(TransactionEntity transactionEntity){
@@ -34,5 +35,18 @@ public class BankAccountEntity {
     public void removeTransaction(TransactionEntity transactionEntity){
         transactionEntitySet.remove(transactionEntity);
         transactionEntity.setBankAccount(null);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        BankAccountEntity that = (BankAccountEntity) o;
+        return accountId != null && Objects.equals(accountId, that.accountId);
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
     }
 }

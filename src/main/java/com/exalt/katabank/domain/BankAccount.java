@@ -23,14 +23,14 @@ public class BankAccount {
     public boolean withDraw(Money amount){
         if (amount == null || !amount.isPositive() || !this.balance.isGreaterOrEqual(amount)) return false;
         this.balance = this.balance.subtract(amount);
-        this.transactions.add(new Transaction(LocalDateTime.now(),amount,TransactionType.WITHDRAW,this.balance));
+        this.transactions.add(new Transaction(null,LocalDateTime.now(),amount,TransactionType.WITHDRAW,this.balance));
         return true;
     }
 
     public boolean deposit(Money amount){
         if (amount == null || !amount.isPositive()) return false;
         this.balance = this.balance.add(amount);
-        this.transactions.add(new Transaction(LocalDateTime.now(),amount,TransactionType.DEPOSIT,this.balance));
+        this.transactions.add(new Transaction(null,LocalDateTime.now(),amount,TransactionType.DEPOSIT,this.balance));
         return true;
     }
 

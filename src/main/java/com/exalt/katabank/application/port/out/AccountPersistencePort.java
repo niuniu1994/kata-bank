@@ -1,18 +1,24 @@
 package com.exalt.katabank.application.port.out;
 
 import com.exalt.katabank.domain.BankAccount;
-import com.exalt.katabank.domain.Money;
-import com.exalt.katabank.domain.Transaction;
 
-import java.util.Set;
 
 /**
  * @author kainingxin
  */
 public interface AccountPersistencePort {
 
+    /**
+     * Get bankAccount
+     * @param accountId
+     * @return
+     */
     BankAccount loadAccount(Long accountId);
 
-    void updateAccount(BankAccount bankAccount);
+    /**
+     * Save bankAccount
+     * @param bankAccount
+     */
+    boolean updateAccount(BankAccount bankAccount);
 
 }
