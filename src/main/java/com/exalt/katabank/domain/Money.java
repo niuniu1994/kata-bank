@@ -5,7 +5,6 @@ import lombok.NonNull;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
-import java.util.regex.Pattern;
 
 /**
  * @author kainingxin
@@ -19,7 +18,6 @@ public class Money {
     private final BigDecimal value;
 
     public Money(BigDecimal value) {
-
         this.value = new BigDecimal(DECIMAL_FORMAT.format(value));
     }
 
