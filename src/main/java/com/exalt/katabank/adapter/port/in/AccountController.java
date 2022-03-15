@@ -2,13 +2,13 @@ package com.exalt.katabank.adapter.port.in;
 
 import com.exalt.katabank.adapter.port.in.dto.CustomResponse;
 import com.exalt.katabank.application.port.service.BankAccountService;
+import com.exalt.katabank.domain.Money;
 import com.exalt.katabank.domain.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,13 +33,16 @@ public class AccountController {
         return new CustomResponse<>(200,"success",bankAccountService.checkTransactions(id));
     }
 
-    @PostMapping ("/{id}/history")
-    public CustomResponse<Set<Transaction>> getTransactions(@PathVariable @NonNull Long id){
-        return new CustomResponse<>(200,"success",bankAccountService.checkTransactions(id));
+    @PostMapping ("/{id}/Money/de/{money}")
+    public CustomResponse<Object> depositMoney(@PathVariable @NonNull Long id,@PathVariable @NonNull String money){
+        if (  bankAccountService.depositMoney(id,new Money(money)))   return new CustomResponse<>(200,"success",null);
+        return new CustomResponse<>(400,"failed",null);
+
     }
 
-    @PostMapping("/{id}/history")
-    public CustomResponse<Set<Transaction>> getTransactions(@PathVariable @NonNull Long id){
-        return new CustomResponse<>(200,"success",bankAccountService.checkTransactions(id));
+    @PostMapping("/{id}/Money/re/{money}")
+    public CustomResponse<Set<Transaction>> retrieveMoney(@PathVariable @NonNull Long id,@PathVariable @NonNull String money){
+        if (  bankAccountService.retrieveMoney(id,new Money(money)))   return new CustomResponse<>(200,"success",null);
+        return new CustomResponse<>(400,"failed",null);
     }
 }
