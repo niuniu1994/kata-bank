@@ -26,8 +26,8 @@ public class TransactionMapper {
         TransactionEntity transactionEntity = new TransactionEntity();
         transactionEntity.setTransactionId(transaction.transactionId());
         transactionEntity.setType(transaction.transactionType().toString());
-        transactionEntity.setAmount(transaction.amount().toString());
-        transactionEntity.setBalance(transaction.balance().toString());
+        transactionEntity.setAmount(transaction.amount().getValue().toString());
+        transactionEntity.setBalance(transaction.balance().getValue().toString());
         transactionEntity.setDateTime(transaction.dateTime());
         return transactionEntity;
     }

@@ -33,7 +33,7 @@ public class AccountPersistenceAdapterTest {
         BankAccountEntity bankAccountEntity = new BankAccountEntity();
         bankAccountEntity.setBalance("100");
         bankAccountEntity.addTransaction(transactionEntity);
-        bankAccountEntityRepository.save(bankAccountEntity);
+        bankAccountEntityRepository.saveAndFlush(bankAccountEntity);
         adapter = new AccountPersistenceAdapter(bankAccountEntityRepository);
     }
 

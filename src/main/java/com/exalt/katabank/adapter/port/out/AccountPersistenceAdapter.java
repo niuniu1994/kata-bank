@@ -15,7 +15,6 @@ public class AccountPersistenceAdapter implements AccountPersistencePort {
 
     private final BankAccountEntityRepository bankAccountEntityRepository;
 
-
     @Autowired
     public AccountPersistenceAdapter(BankAccountEntityRepository bankAccountEntityRepository) {
         this.bankAccountEntityRepository = bankAccountEntityRepository;
@@ -30,7 +29,7 @@ public class AccountPersistenceAdapter implements AccountPersistencePort {
     @Override
     public boolean updateAccount(BankAccount bankAccount) {
         BankAccountEntity bankAccountEntity = BankAccountMapper.bankAccount2BankAccountEntity(bankAccount);
-        bankAccountEntity = bankAccountEntityRepository.save(bankAccountEntity);
+        bankAccountEntity = bankAccountEntityRepository.saveAndFlush(bankAccountEntity);
         return bankAccountEntity.getAccountId() != null;
     }
 }

@@ -22,8 +22,7 @@ public class BankAccountEntity {
 
     private String balance;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "account_id")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "bankAccount",orphanRemoval = true,fetch = FetchType.EAGER)
     @ToString.Exclude
     private Set<TransactionEntity> transactionEntitySet = new HashSet<>();
 

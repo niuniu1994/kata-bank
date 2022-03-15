@@ -30,7 +30,8 @@ public class TransactionEntity {
 
     private String type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
     @ToString.Exclude
     private BankAccountEntity bankAccount = new BankAccountEntity();
 

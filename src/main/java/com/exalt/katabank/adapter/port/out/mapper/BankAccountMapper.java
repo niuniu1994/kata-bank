@@ -6,6 +6,7 @@ import com.exalt.katabank.domain.BankAccount;
 import com.exalt.katabank.domain.Money;
 import com.exalt.katabank.domain.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,15 +19,15 @@ public class BankAccountMapper {
      */
     public static BankAccount bankAccountEntity2BankAccount(BankAccountEntity bankAccountEntity){
         Money money = new Money(bankAccountEntity.getBalance());
-        List<Transaction> transactions = bankAccountEntity.getTransactionEntitySet().stream().map(TransactionMapper::transactionEntity2Transaction).toList();
+        List<Transaction> transactions = new ArrayList<>(bankAccountEntity.getTransactionEntitySet().stream().map(TransactionMapper::transactionEntity2Transaction).toList());
         return new BankAccount(bankAccountEntity.getAccountId(),money,transactions);
     }
 
 
     public static BankAccountEntity bankAccount2BankAccountEntity(BankAccount bankAccount){
         BankAccountEntity bankAccountEntity = new BankAccountEntity();
-        bankAccountEntity.setAccountId(bankAccountEntity.getAccountId());
-        bankAccountEntity.setBalance(bankAccount.getBalance().toString());
+        bankAccountEntity.setAccountId(bankAccount.getAccountId());
+        bankAccountEntity.setBalance(bankAccount.getBalance().getValue().toString());
         if (bankAccount.getTransactions() != null){
             bankAccountEntity.setTransactionEntitySet(bankAccount.getTransactions().stream().map(TransactionMapper::transaction2TransactionEntity).collect(Collectors.toSet()));
         }
