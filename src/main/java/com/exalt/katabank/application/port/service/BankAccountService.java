@@ -32,53 +32,56 @@ public class BankAccountService implements CheckTransactionsUseCase, DepositMone
     }
 
     @Override
-    public Set<Transaction> checkTransactions( Long accountId) {
-        Assert.notNull(accountId,"accountId is undefined");
+    public Set<Transaction> checkTransactions(Long accountId) {
+        Assert.notNull(accountId, "accountId is undefined");
         BankAccount bankAccount = accountPersistencePort.loadAccount(accountId);
         return new HashSet<>(bankAccount.getTransactions());
     }
 
     @Override
-    @Transactional(rollbackFor = RuntimeException.class,isolation = Isolation.REPEATABLE_READ)
-    public boolean depositMoney(Long accountId,Money money) {
-        synchronized (this){
-            log.info("User {} try to  deposit {}",accountId,money.getValue());
-            Assert.notNull(accountId,"accountId is undefined");
-            Assert.notNull(accountId,"money is undefined");
+    public synchronized boolean depositMoney(Long accountId, Money money) {
+        return depositMoney1(accountId, money);
+    }
 
-                BankAccount bankAccount = accountPersistencePort.loadAccount(accountId);
-                log.info("User {} account found with balance {}",accountId,bankAccount.getBalance().getValue());
+    @Transactional(rollbackFor = RuntimeException.class, isolation = Isolation.REPEATABLE_READ)
+    boolean depositMoney1(Long accountId, Money money) {
+        log.info("User {} try to  deposit {}", accountId, money.getValue());
+        Assert.notNull(accountId, "accountId is undefined");
+        Assert.notNull(accountId, "money is undefined");
 
-                if (bankAccount.deposit(money) && accountPersistencePort.updateAccount(bankAccount)){
-                    log.info("{} is saved in {} account",money.getValue(),accountId);
-                    bankAccount = accountPersistencePort.loadAccount(accountId);
-                    log.info("balance {}",bankAccount.getBalance().getValue());
-                    return true;
-                }
-                log.error("User {} failed to deposit {}",accountId,money.getValue());
-                return false;
-            }
+        BankAccount bankAccount = accountPersistencePort.loadAccount(accountId);
+        log.info("User {} account found with balance {}", accountId, bankAccount.getBalance().getValue());
 
-
+        if (bankAccount.deposit(money) && accountPersistencePort.updateAccount(bankAccount)) {
+            log.info("{} is saved in {} account", money.getValue(), accountId);
+            bankAccount = accountPersistencePort.loadAccount(accountId);
+            log.info("balance {}", bankAccount.getBalance().getValue());
+            return true;
+        }
+        log.error("User {} failed to deposit {}", accountId, money.getValue());
+        return false;
     }
 
     @Override
-    @Transactional(rollbackFor = RuntimeException.class)
-    public boolean retrieveMoney( Long accountId, Money money) {
-        synchronized (this) {
-            log.info("User {} try to withdraw {}", accountId, money.getValue());
-            Assert.notNull(accountId, "accountId is undefined");
-            Assert.notNull(accountId, "money is undefined");
-            log.info("User {} account found", accountId);
+    public synchronized boolean retrieveMoney(Long accountId, Money money) {
+        return retrieveMoney1(accountId, money);
+    }
 
-            BankAccount bankAccount = accountPersistencePort.loadAccount(accountId);
-            if (bankAccount.withDraw(money)) {
-                log.info("{} is withdraw from {} account", money.toString(), accountId);
-                accountPersistencePort.updateAccount(bankAccount);
-                return true;
-            }
-            log.error("User {} failed to withdraw {}", accountId, money);
-            return false;
+    @Transactional(rollbackFor = RuntimeException.class)
+    boolean retrieveMoney1(Long accountId, Money money) {
+
+        log.info("User {} try to withdraw {}", accountId, money.getValue());
+        Assert.notNull(accountId, "accountId is undefined");
+        Assert.notNull(accountId, "money is undefined");
+        log.info("User {} account found", accountId);
+
+        BankAccount bankAccount = accountPersistencePort.loadAccount(accountId);
+        if (bankAccount.withDraw(money)) {
+            log.info("{} is withdraw from {} account", money.toString(), accountId);
+            accountPersistencePort.updateAccount(bankAccount);
+            return true;
         }
+        log.error("User {} failed to withdraw {}", accountId, money);
+        return false;
     }
 }

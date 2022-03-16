@@ -51,29 +51,22 @@ public class BankAccountServiceIntegrationTest {
 
     @Test
     void when_multi_thread_save_money_then_should_return_correct_balance() throws InterruptedException {
-        //TODO inorder to avoid data consistence problem under multiThread
-        // , I have implement lock and transaction but it still doesn't work.
-        // It appears that sometimes it reads the old balance of the account.
-
-
-        ExecutorService executor = Executors.newFixedThreadPool(1);
+        ExecutorService executor = Executors.newFixedThreadPool(5);
         List<Callable<Boolean>> callableList = new ArrayList<>();
-        Stream.generate(()->"1").limit(10).forEach(i -> callableList.add(()-> bankAccountService.depositMoney(1L,new Money(i))));
+        Stream.generate(()->"1").limit(50).forEach(i -> callableList.add(()-> bankAccountService.depositMoney(1L,new Money(i))));
         executor.invokeAll(callableList);
         BankAccount bankAccount = accountPersistencePort.loadAccount(1L);
-        assertEquals(new Money("110").getValue().toString(),bankAccount.getBalance().getValue().toString());
+        assertEquals(new Money("150").getValue().toString(),bankAccount.getBalance().getValue().toString());
     }
 
     @Test
     void when_multi_thread_withdraw_money_then_should_return_correct_balance() throws InterruptedException {
-        //TODO inorder to avoid data consistence problem under multiThread
-        // , I have implement lock and transaction but it still doesn't work.
-        // It appears that sometimes it reads the old balance of the account.
-        ExecutorService executor = Executors.newFixedThreadPool(1);
+        ExecutorService executor = Executors.newFixedThreadPool(5);
         List<Callable<Boolean>> callableList = new ArrayList<>();
-        Stream.generate(()->"1").limit(100).forEach(i -> callableList.add(()-> bankAccountService.retrieveMoney(1L,new Money(i))));
+        Stream.generate(()->"1").limit(50).forEach(i -> callableList.add(()-> bankAccountService.retrieveMoney(1L,new Money(i))));
         executor.invokeAll(callableList);
-        assertEquals(bankAccountEntityRepository.getById(1L).getBalance(),new Money("0"));
+        BankAccount bankAccount = accountPersistencePort.loadAccount(1L);
+        assertEquals(new Money("150").getValue().toString(),bankAccount.getBalance().getValue().toString());
     }
 
 
