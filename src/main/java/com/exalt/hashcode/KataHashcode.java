@@ -13,12 +13,15 @@ public class KataHashcode {
         String[] strings = new String[3];
         Random random = new Random();
         //at least two char, so the smallest value should bigger than 127(for the single char the biggest value is 126 in our program)
-        int hash = random.nextInt(10, 99999);
-        char[] chars = String.valueOf(hash).toCharArray();
+        int base = random.nextInt(10, 99999);
+        char[] chars = String.valueOf(base).toCharArray();
         strings[0] = String.valueOf(chars);
         for (int i =1 ; i < 3; i++){
             chars[0] -= 1;
-            chars[1] += 31;
+            for (int j = 1; j < chars.length - 1; j ++){
+                chars[j] += 30;
+            }
+            chars[chars.length - 1] += 31;
             strings[i] = String.valueOf(chars);
         }
         return strings;
