@@ -28,4 +28,10 @@ public class KataCalculatorTest {
     }
 
 
+    @Test
+    public void step3(){
+        assertThrows(IllegalArgumentException.class,()->kataCalculator.add("1,2\n,"));
+        assertEquals(6,kataCalculator.add("1,2\n3"));
+        assertEquals(6,kataCalculator.add("1\n2\n3,"));
+    }
 }

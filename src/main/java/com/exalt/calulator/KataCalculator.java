@@ -16,7 +16,10 @@ public class KataCalculator {
      */
     public int add(String numbers){
         if (numbers == null || numbers.length() == 0) return 0;
-        String[] numStrs = numbers.split(",");
+        if (numbers.contains(",\n") || numbers.contains("\n,")){
+            throw new IllegalArgumentException("format incorrect");
+        }
+        String[] numStrs = numbers.split("[,\n]");
         long[] longs = Arrays.stream(numStrs).mapToLong(x -> {
             if ("".equals(x)){
                 return 0;
