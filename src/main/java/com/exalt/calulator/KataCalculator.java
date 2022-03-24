@@ -2,6 +2,7 @@ package com.exalt.calulator;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author kainingxin
@@ -34,6 +35,11 @@ public class KataCalculator {
             }
             return Long.parseLong(x);
         }).toArray();
+
+        if (Arrays.stream(longs).anyMatch(x -> x<0)){
+            throw new IllegalArgumentException(String.format("negative not allowed : %s",Arrays.stream(longs).filter(x -> x<0).mapToObj(x -> "" + x).collect(Collectors.joining(","))));
+        }
+
         long res = Arrays.stream(longs).sum();
         if (res > Integer.MAX_VALUE || res < Integer.MIN_VALUE){
             throw new ArithmeticException("Overflow");

@@ -40,4 +40,11 @@ public class KataCalculatorTest {
         assertEquals(10,kataCalculator.add("//:\n1,2\n3:4"));
 
     }
+
+    @Test
+    public void step5(){
+
+        assertThrows(IllegalArgumentException.class,()->kataCalculator.add("//:\n1,2\n3:-4"));
+
+    }
 }
