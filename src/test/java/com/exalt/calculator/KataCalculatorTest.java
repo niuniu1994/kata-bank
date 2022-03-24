@@ -34,4 +34,10 @@ public class KataCalculatorTest {
         assertEquals(6,kataCalculator.add("1,2\n3"));
         assertEquals(6,kataCalculator.add("1\n2\n3,"));
     }
+    @Test
+    public void step4(){
+
+        assertEquals(10,kataCalculator.add("//:\n1,2\n3:4"));
+
+    }
 }
