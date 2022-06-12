@@ -1,11 +1,14 @@
 package com.exalt.katabank.domain;
 
-import static org.junit.jupiter.api.Assertions.*;
+import com.exalt.katabank.domain.model.BankAccount;
+import com.exalt.katabank.domain.model.Money;
+import com.exalt.katabank.domain.model.TransactionType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * BankAccount Tester.

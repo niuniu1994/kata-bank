@@ -1,15 +1,12 @@
 package com.exalt.katabank.application;
 
-import com.exalt.katabank.adapter.port.out.entity.BankAccountEntity;
-import com.exalt.katabank.adapter.port.out.entity.TransactionEntity;
-import com.exalt.katabank.adapter.port.out.repositry.BankAccountEntityRepository;
-import com.exalt.katabank.application.port.out.AccountPersistencePort;
-import com.exalt.katabank.application.port.service.BankAccountService;
-import com.exalt.katabank.domain.BankAccount;
-import com.exalt.katabank.domain.Money;
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.junit.jupiter.api.BeforeAll;
+import com.exalt.katabank.domain.model.BankAccount;
+import com.exalt.katabank.domain.model.Money;
+import com.exalt.katabank.domain.port.server_side.AccountPersistencePort;
+import com.exalt.katabank.domain.service.BankAccountService;
+import com.exalt.katabank.infrastructure.db.model.BankAccountEntity;
+import com.exalt.katabank.infrastructure.db.model.TransactionEntity;
+import com.exalt.katabank.infrastructure.db.repositry.BankAccountEntityRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +19,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 public class BankAccountServiceIntegrationTest {
@@ -46,7 +45,6 @@ public class BankAccountServiceIntegrationTest {
         bankAccountEntity.setBalance("100");
         bankAccountEntity.addTransaction(transactionEntity);
         bankAccountEntityRepository.saveAndFlush(bankAccountEntity);
-
     }
 
     @Test
@@ -61,12 +59,13 @@ public class BankAccountServiceIntegrationTest {
 
     @Test
     void when_multi_thread_withdraw_money_then_should_return_correct_balance() throws InterruptedException {
+        String expected = accountPersistencePort.loadAccount(1L).getBalance().subtract(new Money("50")).getValue().toString();
         ExecutorService executor = Executors.newFixedThreadPool(5);
         List<Callable<Boolean>> callableList = new ArrayList<>();
         Stream.generate(()->"1").limit(50).forEach(i -> callableList.add(()-> bankAccountService.retrieveMoney(1L,new Money(i))));
         executor.invokeAll(callableList);
         BankAccount bankAccount = accountPersistencePort.loadAccount(1L);
-        assertEquals(new Money("150").getValue().toString(),bankAccount.getBalance().getValue().toString());
+        assertEquals(expected,bankAccount.getBalance().getValue().toString());
     }
 
 

@@ -1,7 +1,7 @@
 package com.exalt.katabank.domain;
 
+import com.exalt.katabank.domain.model.Money;
 import org.junit.jupiter.api.Test;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import static org.junit.jupiter.api.Assertions.*;
 

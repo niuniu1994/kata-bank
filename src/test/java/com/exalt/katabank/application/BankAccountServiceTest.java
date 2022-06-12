@@ -1,15 +1,11 @@
 package com.exalt.katabank.application;
 
-import com.exalt.katabank.adapter.port.out.entity.BankAccountEntity;
-import com.exalt.katabank.adapter.port.out.entity.TransactionEntity;
-import com.exalt.katabank.application.port.out.AccountPersistencePort;
-import com.exalt.katabank.application.port.service.BankAccountService;
-import com.exalt.katabank.domain.BankAccount;
-import com.exalt.katabank.domain.Money;
-import static  org.junit.jupiter.api.Assertions.*;
-
-import com.exalt.katabank.domain.Transaction;
-import com.exalt.katabank.domain.TransactionType;
+import com.exalt.katabank.domain.model.BankAccount;
+import com.exalt.katabank.domain.model.Money;
+import com.exalt.katabank.domain.model.Transaction;
+import com.exalt.katabank.domain.model.TransactionType;
+import com.exalt.katabank.domain.port.server_side.AccountPersistencePort;
+import com.exalt.katabank.domain.service.BankAccountService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +18,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 @ExtendWith(MockitoExtension.class)
 public class BankAccountServiceTest {
 
@@ -33,6 +32,7 @@ public class BankAccountServiceTest {
     private BankAccountService bankAccountService;
 
     BankAccount bankAccount;
+
     @BeforeEach
     void setup(){
         bankAccount = new BankAccount(1L,
@@ -42,6 +42,8 @@ public class BankAccountServiceTest {
     @Test
     void  when_deposit_money_the_balance_then_should_return_true(){
         Mockito.when(accountPersistencePort.loadAccount(1L)).thenReturn(bankAccount);
+        Mockito.when(accountPersistencePort.updateAccount(bankAccount)).thenReturn(true);
+
         assertTrue(bankAccountService.depositMoney(1L,new Money("100")));
     }
 
@@ -55,12 +57,6 @@ public class BankAccountServiceTest {
     void  when_check_transaction_then_should_return_items(){
         Mockito.when(accountPersistencePort.loadAccount(1L)).thenReturn(bankAccount);
         assertNotNull(bankAccountService.checkTransactions(1L));
-    }
-
-    @Test
-    void  when_multi_thread_retrieve_money_then_should_return_correct_result(){
-        Mockito.when(accountPersistencePort.loadAccount(1L)).thenReturn(bankAccount);
-
     }
 
     @Test

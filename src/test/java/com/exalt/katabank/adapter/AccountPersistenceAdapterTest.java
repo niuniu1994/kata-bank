@@ -1,19 +1,20 @@
 package com.exalt.katabank.adapter;
 
-import com.exalt.katabank.adapter.port.out.AccountPersistenceAdapter;
-import com.exalt.katabank.adapter.port.out.entity.BankAccountEntity;
-import com.exalt.katabank.adapter.port.out.entity.TransactionEntity;
-import com.exalt.katabank.adapter.port.out.repositry.BankAccountEntityRepository;
-import static org.junit.jupiter.api.Assertions.*;
-
-import com.exalt.katabank.domain.BankAccount;
-import com.exalt.katabank.domain.Money;
+import com.exalt.katabank.domain.model.BankAccount;
+import com.exalt.katabank.domain.model.Money;
+import com.exalt.katabank.infrastructure.db.adapter.AccountPersistenceAdapter;
+import com.exalt.katabank.infrastructure.db.model.BankAccountEntity;
+import com.exalt.katabank.infrastructure.db.model.TransactionEntity;
+import com.exalt.katabank.infrastructure.db.repositry.BankAccountEntityRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 public class AccountPersistenceAdapterTest {
