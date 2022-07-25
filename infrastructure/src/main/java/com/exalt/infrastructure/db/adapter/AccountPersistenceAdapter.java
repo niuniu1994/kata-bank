@@ -23,7 +23,7 @@ public class AccountPersistenceAdapter implements AccountPersistencePort {
 
     @Override
     public BankAccount loadAccount(Long accountId) {
-        BankAccountEntity bankAccountEntity = bankAccountEntityRepository.findById(accountId).orElseThrow(EntityNotFoundException::new);
+        BankAccountEntity bankAccountEntity = bankAccountEntityRepository.findByAccountIdWithTransactions(accountId).orElseThrow(EntityNotFoundException::new);
         return BankAccountMapper.bankAccountEntity2BankAccount(bankAccountEntity);
     }
 

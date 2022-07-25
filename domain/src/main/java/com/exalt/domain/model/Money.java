@@ -1,5 +1,6 @@
 package com.exalt.domain.model;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
 
@@ -10,6 +11,7 @@ import java.text.DecimalFormat;
 /**
  * @author kainingxin
  */
+@EqualsAndHashCode
 public class Money {
 
     private static final DecimalFormat DECIMAL_FORMAT =new DecimalFormat("#.00");
@@ -49,5 +51,6 @@ public class Money {
     public boolean isGreaterOrEqual(Money money){
         return this.value.compareTo(money.getValue()) >= 0;
     }
+
 
 }

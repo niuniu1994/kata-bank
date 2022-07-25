@@ -1,11 +1,9 @@
 package com.exalt.infrastructure.db.model;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Entity
 @Getter
@@ -36,13 +34,26 @@ public class TransactionEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+
         TransactionEntity that = (TransactionEntity) o;
-        return transactionId != null && Objects.equals(transactionId, that.transactionId);
+
+        if (transactionId != null ? !transactionId.equals(that.transactionId) : that.transactionId != null)
+            return false;
+        if (dateTime != null ? !dateTime.equals(that.dateTime) : that.dateTime != null) return false;
+        if (amount != null ? !amount.equals(that.amount) : that.amount != null) return false;
+        if (balance != null ? !balance.equals(that.balance) : that.balance != null) return false;
+        if (type != null ? !type.equals(that.type) : that.type != null) return false;
+        return bankAccount != null ? bankAccount.equals(that.bankAccount) : that.bankAccount == null;
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        int result = transactionId != null ? transactionId.hashCode() : 0;
+        result = 31 * result + (dateTime != null ? dateTime.hashCode() : 0);
+        result = 31 * result + (amount != null ? amount.hashCode() : 0);
+        result = 31 * result + (balance != null ? balance.hashCode() : 0);
+        result = 31 * result + (type != null ? type.hashCode() : 0);
+        return result;
     }
 }

@@ -1,11 +1,9 @@
 package com.exalt.infrastructure.db.model;
 
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -23,7 +21,7 @@ public class BankAccountEntity {
 
     private String balance;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "bankAccount",orphanRemoval = true,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "bankAccount",orphanRemoval = true,fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<TransactionEntity> transactionEntitySet = new HashSet<>();
 
@@ -40,13 +38,19 @@ public class BankAccountEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+
         BankAccountEntity that = (BankAccountEntity) o;
-        return accountId != null && Objects.equals(accountId, that.accountId);
+
+        if (accountId != null ? !accountId.equals(that.accountId) : that.accountId != null) return false;
+        if (balance != null ? !balance.equals(that.balance) : that.balance != null) return false;
+        return transactionEntitySet != null ? transactionEntitySet.equals(that.transactionEntitySet) : that.transactionEntitySet == null;
     }
 
     @Override
     public int hashCode() {
-        return getClass().hashCode();
+        int result = accountId != null ? accountId.hashCode() : 0;
+        result = 31 * result + (balance != null ? balance.hashCode() : 0);
+        return result;
     }
 }
