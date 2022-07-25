@@ -4,6 +4,7 @@ import com.exalt.application.mapper.TransactionMapper;
 import com.exalt.application.model.CustomResponse;
 import com.exalt.domain.model.Money;
 import com.exalt.domain.model.Transaction;
+import com.exalt.domain.model.enums.ExceptionEnum;
 import com.exalt.domain.service.BankAccountService;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -56,6 +57,7 @@ public class AccountController {
             res = transactionTemplate.execute( status ->
                             bankAccountService.retrieveMoney(id,new Money(money)));
         }
-        return Boolean.TRUE.equals(res) ? CustomResponse.success(null): CustomResponse.error();
+        return Boolean.TRUE.equals(res) ? CustomResponse.success(null):
+                CustomResponse.error(ExceptionEnum.ILLEGAL_MONEY_AMOUNT.getResultCode(),ExceptionEnum.ILLEGAL_MONEY_AMOUNT.getResultMsg());
     }
 }

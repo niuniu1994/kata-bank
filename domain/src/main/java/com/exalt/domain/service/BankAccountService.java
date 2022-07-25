@@ -65,7 +65,7 @@ public class BankAccountService implements CheckTransactionsUsecase, DepositMone
         log.info("User {} account found", accountId);
 
         if (bankAccount.withDraw(money)) {
-            log.info("{} is withdraw from {} account", money.toString(), accountId);
+            log.info("{} is withdraw from {} account", money.getValue(), accountId);
             accountPersistencePort.updateAccount(bankAccount);
             return true;
         }
