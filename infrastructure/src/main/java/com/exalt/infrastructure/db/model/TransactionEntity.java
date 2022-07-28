@@ -38,22 +38,12 @@ public class TransactionEntity {
 
         TransactionEntity that = (TransactionEntity) o;
 
-        if (transactionId != null ? !transactionId.equals(that.transactionId) : that.transactionId != null)
-            return false;
-        if (dateTime != null ? !dateTime.equals(that.dateTime) : that.dateTime != null) return false;
-        if (amount != null ? !amount.equals(that.amount) : that.amount != null) return false;
-        if (balance != null ? !balance.equals(that.balance) : that.balance != null) return false;
-        if (type != null ? !type.equals(that.type) : that.type != null) return false;
-        return bankAccount != null ? bankAccount.equals(that.bankAccount) : that.bankAccount == null;
+        if (transactionId != null ? !transactionId.equals(that.transactionId) : that.transactionId != null) return false;
+        return  true;
     }
 
     @Override
     public int hashCode() {
-        int result = transactionId != null ? transactionId.hashCode() : 0;
-        result = 31 * result + (dateTime != null ? dateTime.hashCode() : 0);
-        result = 31 * result + (amount != null ? amount.hashCode() : 0);
-        result = 31 * result + (balance != null ? balance.hashCode() : 0);
-        result = 31 * result + (type != null ? type.hashCode() : 0);
-        return result;
+        return getClass().hashCode();
     }
 }

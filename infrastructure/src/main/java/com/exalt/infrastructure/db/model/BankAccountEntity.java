@@ -21,7 +21,9 @@ public class BankAccountEntity {
 
     private String balance;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "bankAccount",orphanRemoval = true,fetch = FetchType.LAZY)
+    @OneToMany(cascade = {CascadeType.PERSIST,
+            CascadeType.REFRESH,CascadeType.MERGE},
+            mappedBy = "bankAccount",orphanRemoval = true,fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<TransactionEntity> transactionEntitySet = new HashSet<>();
 
@@ -43,14 +45,11 @@ public class BankAccountEntity {
         BankAccountEntity that = (BankAccountEntity) o;
 
         if (accountId != null ? !accountId.equals(that.accountId) : that.accountId != null) return false;
-        if (balance != null ? !balance.equals(that.balance) : that.balance != null) return false;
-        return transactionEntitySet != null ? transactionEntitySet.equals(that.transactionEntitySet) : that.transactionEntitySet == null;
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = accountId != null ? accountId.hashCode() : 0;
-        result = 31 * result + (balance != null ? balance.hashCode() : 0);
-        return result;
+        return getClass().hashCode();
     }
 }

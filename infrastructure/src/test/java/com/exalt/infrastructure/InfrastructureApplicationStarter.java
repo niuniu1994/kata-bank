@@ -4,10 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class InfrastructureApplication {
+public class InfrastructureApplicationStarter {
 
     public static void main(String[] args) {
-        SpringApplication.run(InfrastructureApplication.class, args);
+        SpringApplication.run(InfrastructureApplicationStarter.class,args);
     }
-
 }

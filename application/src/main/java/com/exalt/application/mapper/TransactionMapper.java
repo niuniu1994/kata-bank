@@ -24,7 +24,6 @@ public class TransactionMapper {
     }
 
     public static Set<TransactionDTO> transactionSet2TransactionDTOSet(Set<Transaction> transactions){
-
         return transactions.stream().map(TransactionMapper::transaction2TransactionDTO).collect(Collectors.toSet());
     }
 }
